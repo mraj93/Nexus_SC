@@ -15,6 +15,7 @@ contract MultiTokenERC721 is ERC721URIStorage, Ownable{
         uint256 price;
         string nftURI;
         string metaDataURI;
+        bool isSold;
     }
 
     mapping (uint256 => NFT) public NFTDetail;
@@ -26,11 +27,11 @@ contract MultiTokenERC721 is ERC721URIStorage, Ownable{
         _setTokenURI(tokenId, nftURI);
         Creator[tokenId] =msg.sender;
         MetadataURIs[tokenId] = metaDataURI;
-        NFT memory nft = NFT(nftName, description, price, nftURI, metaDataURI);
+        NFT memory nft = NFT(nftName, description, price, nftURI, metaDataURI, false);
         NFTDetail[tokenId] = nft;
         ++tokenId;
     }
-    
+
     function updateTokenMetadataURI(uint256 _tokenId, string memory newMetadataURI) public onlyOwner {
         require(_exists(_tokenId), "ERC721: URI query for nonexistent token");
         MetadataURIs[_tokenId] = newMetadataURI;
@@ -50,4 +51,17 @@ contract MultiTokenERC721 is ERC721URIStorage, Ownable{
     function getDetails (uint256 _tokenId) public view returns(NFT memory) {
         return NFTDetail[_tokenId];
     }
+
+    function buyNFT(uint256 _tokenId) public payable {
+        require(_exists(_tokenId), "ERC721: Token does not exist");
+        NFT storage nft = NFTDetail[_tokenId];
+        require(!nft.isSold, "NFT is already sold");
+        require(msg.sender != ownerOf(_tokenId), "Owner cannot buy their own NFT");
+        require(msg.value >= nft.price, "Insufficient funds");
+        address payable owner = payable(ownerOf(_tokenId));
+        _setApprovalForAll(ownerOf(_tokenId), msg.sender, true);
+        safeTransferFrom( owner, msg.sender, _tokenId, "");
+        nft.isSold = true;
+    }
+
 }
