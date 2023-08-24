@@ -21,6 +21,7 @@ contract MultiTokenERC721 is ERC721URIStorage, Ownable{
     mapping (uint256 => NFT) public NFTDetail;
     mapping (uint256 => address) public Creator;
     mapping (uint256 => string) private MetadataURIs;
+//    mapping(address => mapping(address => uint256)) private _allowances;
 
     function mint(string memory nftName, uint256 price, string memory description, string memory nftURI, string memory metaDataURI) public {
         _safeMint(msg.sender, tokenId, "");
@@ -63,5 +64,4 @@ contract MultiTokenERC721 is ERC721URIStorage, Ownable{
         safeTransferFrom( owner, msg.sender, _tokenId, "");
         nft.isSold = true;
     }
-
 }
