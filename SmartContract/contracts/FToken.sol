@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+// https://cryptomarketpool.com/
+
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 interface ERC20 {
@@ -15,15 +17,11 @@ interface ERC20 {
 
 }
 
-//contract FToken is ERC20 {
-
-//    constructor () ERC20 ( "TokenName", "SYMBOL") {
-//        _mint(msg.sender, 10000 * 10 ** decimals());
-//    }
-
-
-// this is the basics of creating an ERC20 token
-//change the name loeker to what ever you would like
+contract FToken is ERC20 {
+    constructor () ERC20 ( "TokenName", "SYMBOL") {
+        _mint(msg.sender, 10000 * 10 ** decimals());
+    }
+}
 
 contract Loeker is ERC20 {
     string public constant symbol = "LKR";
