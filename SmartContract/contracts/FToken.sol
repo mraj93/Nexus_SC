@@ -30,7 +30,7 @@ contract Loeker is ERC20 {
 
     //1,000,000+18 zeros
     uint private constant __totalSupply = 1000000000000000000000000;
-
+    
     //this mapping iw where we store the balances of an address
     mapping (address => uint) private __balanceOf;
 

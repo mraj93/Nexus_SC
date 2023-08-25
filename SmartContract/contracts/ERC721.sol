@@ -32,7 +32,7 @@ contract MultiTokenERC721 is ERC721URIStorage, Ownable{
         NFTDetail[tokenId] = nft;
         ++tokenId;
     }
-
+    
     function updateTokenMetadataURI(uint256 _tokenId, string memory newMetadataURI) public onlyOwner {
         require(_exists(_tokenId), "ERC721: URI query for nonexistent token");
         MetadataURIs[_tokenId] = newMetadataURI;
